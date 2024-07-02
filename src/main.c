@@ -1,14 +1,16 @@
 #include "include/raylib.h"
 
+#define offset 75
+#define cell_size 30
+#define cell_count 25
+
 int main() {
-  const int screen_width = 800;
-  const int screen_height = 600;
+  InitWindow(2 * offset + cell_size * cell_count,
+             2 * offset + cell_size * cell_count, "Snake");
 
-  InitWindow(screen_width, screen_height, "Ray lib tuto");
+  SetTargetFPS(60);
 
-  SetTargetFPS(144);
-
-  Vector2 square_position = {(float)screen_width / 2, (float)screen_height / 2};
+  Vector2 square_position = {(float)cell_count / 2, (float)cell_count / 2};
 
   while (!WindowShouldClose()) {
     // update
@@ -22,9 +24,17 @@ int main() {
       square_position.y += 2.0f;
 
     BeginDrawing();
-    ClearBackground(RAYWHITE);
-    DrawText("GG Enorawena", 190, 200, 20, LIGHTGRAY);
-    DrawRectangle(square_position.x, square_position.y, 25, 25, MAROON);
+    ClearBackground(GREEN);
+    DrawRectangle(offset + square_position.x * cell_size,
+                  offset + square_position.y * cell_size, 30, 20, WHITE);
+    DrawText("Snake", offset - 5, 20, 40, DARKGREEN);
+    Rectangle rect = {(float)offset - 5, (float)offset - 5,
+                      (float)cell_size * cell_count + 10,
+                      (float)cell_size * cell_count + 10};
+    unsigned int score = 0;
+    DrawRectangleLinesEx(rect, 5, DARKGREEN);
+    DrawText(TextFormat("%i", score), offset - 5,
+             offset + cell_size * cell_count + 10, 40, DARKGREEN);
     EndDrawing();
   }
 

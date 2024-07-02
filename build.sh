@@ -14,17 +14,14 @@ dist="dist"
 # 
 meson setup $out
 
-if [ ! -z $1 ] && [[ $1 == "prod" ]];then
-  meson dist -C $out --allow-dirty
+if [ ! -d $bin ]; then
+  mkdir $bin
+fi
 
-  mv $out/$out_dist $dist 
-else
-  if [ ! -d $bin ]; then
-    mkdir $bin
-  fi
-  
-  meson compile -C $out
-  
-  mv $out/$p_name $bin
+meson compile -C $out
+mv $out/$p_name $bin
+
+if [ ! -z $1 ] && [[ $1 == "dev" ]];then
+  ./$bin/$p_name
 fi
 
