@@ -12,8 +12,10 @@ deps = [
   )
 ]
 
+src = ['src/main.c', 'src/SnakeBody.c']
+
 executable('snake', 
-  'src/main.c', 
+  src,
   include_directories : include, 
   dependencies: deps
 )
