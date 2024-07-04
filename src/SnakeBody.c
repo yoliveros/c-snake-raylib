@@ -1,7 +1,5 @@
 #include "SnakeBody.h"
-#include <string.h>
-
-Vector2 *body[SIZE];
+#include <stdlib.h>
 
 int front = -1, rear = -1;
 
@@ -11,11 +9,10 @@ void en_queue(Vector2 value) {
 
   if (front == -1) {
     front = 0;
-    memset(*body, 0, sizeof(body));
   }
 
   rear++;
-  *body[rear] = value;
+  state.body[rear] = value;
 }
 
 void de_queue() {
@@ -26,3 +23,12 @@ void de_queue() {
   if (front > rear)
     front = rear = -1;
 }
+
+Vector2 *get_rear() {
+  if (front == -1)
+    return NULL;
+
+  return &state.body[rear];
+}
+
+void restart() { front = rear = -1; }
