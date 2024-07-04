@@ -3,7 +3,7 @@
 
 int front = -1, rear = -1;
 
-void en_queue(Vector2 value) {
+void en_queue(Vector2 value, bool movement) {
   if (rear == SIZE - 1)
     return;
 
@@ -11,7 +11,8 @@ void en_queue(Vector2 value) {
     front = 0;
   }
 
-  rear++;
+  if (!movement)
+    rear++;
   state.body[rear] = value;
 }
 
