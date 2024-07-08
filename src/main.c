@@ -1,8 +1,8 @@
 #include "include/raylib.h"
 
 #include "SnakeBody.h"
-#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #define offset 75
@@ -12,11 +12,19 @@
 
 Vector2 init_head = {(float)cell_count / 2, (float)cell_count / 2};
 
+Vector2 food;
+
 State state = {
     .direction = {.5, 0},
     .body = {{0}},
     .score = 0,
 };
+
+void gen_food(Vector2 *value) {
+  int x = rand() % cell_count;
+  int y = rand() % cell_count;
+  *value = (Vector2){x, y};
+}
 
 void reset() {
   restart();
@@ -28,6 +36,7 @@ void reset() {
   };
 
   en_queue(init_head, false);
+  gen_food(&food);
 }
 
 void snake_movement() {
@@ -50,8 +59,6 @@ void snake_movement() {
       curr_head->y + state.direction.y,
   };
 
-  printf("%f, %f\n", new_head.x, new_head.y);
-
   if (new_head.x >= cell_count || new_head.x <= -.5 ||
       new_head.y >= cell_count || new_head.y <= -.5) {
     printf("Game over\n");
@@ -59,8 +66,7 @@ void snake_movement() {
     return;
   }
 
-  en_queue(new_head, false);
-  de_queue();
+  en_queue(new_head, true);
 }
 
 int main() {
@@ -70,6 +76,8 @@ int main() {
   SetTargetFPS(60);
 
   en_queue(init_head, false);
+
+  gen_food(&food);
 
   double last_update = 0;
 
@@ -87,8 +95,12 @@ int main() {
 
     Vector2 *curr_head = get_rear();
 
+    printf("%f, %f\n", curr_head->x, curr_head->y);
+
     BeginDrawing();
     ClearBackground(GREEN);
+    DrawRectangle(offset + food.x * cell_size - 1, offset + food.y * cell_size,
+                  20, 20, RED);
     DrawRectangle(offset + curr_head->x * cell_size - 1,
                   offset + curr_head->y * cell_size, 20, 20, WHITE);
     DrawText("Snake", offset - 5, 20, 40, DARKGREEN);

@@ -12,7 +12,7 @@ typedef struct {
 
 extern State state;
 
-void en_queue(Vector2 value, bool movement);
+void en_queue(Vector2, bool);
 
 void de_queue();
 

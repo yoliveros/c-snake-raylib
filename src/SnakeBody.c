@@ -7,9 +7,8 @@ void en_queue(Vector2 value, bool movement) {
   if (rear == SIZE - 1)
     return;
 
-  if (front == -1) {
+  if (front == -1)
     front = 0;
-  }
 
   if (!movement)
     rear++;
